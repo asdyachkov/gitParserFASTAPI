@@ -27,7 +27,7 @@ docker-compose up --build
 http://localhost:8000/api/repos
 
 ### Эндпоинты
-Получение 100 самых популярных репозиториев по звездам:
+Получение 100 самых популярных репозиториев по звездам (доступны и другие сортировки при передаче параметра order_by по подному из полей [repo, owner, position_cur, position_prev, stars, watchers, forks, open_issues, language]):
 
 GET /top100
 
