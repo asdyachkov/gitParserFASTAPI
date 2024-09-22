@@ -16,6 +16,8 @@ cd github_parser
 
 Создайте файл .env в корне проекта и добавьте строку с переменной DATABASE_URL, указав адрес вашей базы данных в следующем формате:
 DATABASE_URL=postgresql://пользователь:пароль@хост:порт/имяБД
+Аналогично, следует заполнить DATABASE_URL в docker-compose файле
+
 
 4. Запустите приложение с помощью Docker Compose:
 docker-compose up --build
@@ -25,7 +27,7 @@ docker-compose up --build
 http://localhost:8000/api/repos
 
 ### Эндпоинты
-Получение 100 самых популярных репозиториев по звездам:
+Получение 100 самых популярных репозиториев по звездам (доступны и другие сортировки при передаче параметра order_by по подному из полей [repo, owner, position_cur, position_prev, stars, watchers, forks, open_issues, language]):
 
 GET /top100
 
