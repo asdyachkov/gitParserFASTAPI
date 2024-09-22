@@ -5,8 +5,6 @@ from .database import get_db_connection
 
 # Функция для получения топ 100 репозиториев
 async def get_top_100_repos(order_by: str = 'stars'):
-    order_by = order_by if order_by in ['repo', 'owner', 'position_cur', 'position_prev', 'stars', 'watchers', 'forks',
-                                        'open_issues', 'language'] else 'stars'
     query = f'''
         SELECT repo, owner, position_cur, position_prev, stars, watchers, forks, open_issues, language
         FROM repositories
