@@ -16,6 +16,8 @@ cd github_parser
 
 Создайте файл .env в корне проекта и добавьте строку с переменной DATABASE_URL, указав адрес вашей базы данных в следующем формате:
 DATABASE_URL=postgresql://пользователь:пароль@хост:порт/имяБД
+Аналогично, следует заполнить DATABASE_URL в docker-compose файле
+
 
 4. Запустите приложение с помощью Docker Compose:
 docker-compose up --build
