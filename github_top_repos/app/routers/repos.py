@@ -1,20 +1,23 @@
 from datetime import datetime
 
-from fastapi import APIRouter, Query, HTTPException
+from fastapi import APIRouter, Query, HTTPException, Depends
 from typing import Optional
+
+from ..database import get_db_connection
 from ..services import fetch_top_100_repos, fetch_repo_activity
 
 router = APIRouter()
 
 
 @router.get("/top100")
-async def get_top_100_repos(order_by: Optional[str] = Query("stars")):
+async def get_top_100_repos(order_by: Optional[str] = Query("stars"),
+                            db_connection: Depends = Depends(get_db_connection)):
     """Возвращает топ 100 репозиториев по количеству звезд или другим параметрам."""
 
     order_by = order_by if order_by in ['repo', 'owner', 'position_cur', 'position_prev', 'stars', 'watchers', 'forks',
                                         'open_issues', 'language'] else 'stars'
 
-    repos = await fetch_top_100_repos(order_by)
+    repos = await fetch_top_100_repos(order_by, db_connection)
     return {"repos": repos}
 
 
@@ -23,7 +26,7 @@ async def get_repo_activity(
         owner: str,
         repo: str,
         since: str,
-        until: str
+        until: str, db_connection: Depends = Depends(get_db_connection)
 ):
     """Возвращает активность по коммитам за выбранный промежуток времени."""
 
@@ -57,5 +60,5 @@ async def get_repo_activity(
     if since_date > until_date:
         raise HTTPException(status_code=400, detail="Дата 'since' должна быть раньше даты 'until'.")
 
-    activity = await fetch_repo_activity(owner, repo, since, until)
+    activity = await fetch_repo_activity(owner, repo, since, until, db_connection)
     return {"activity": activity}
